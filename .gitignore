@@ -1,4 +1,9 @@
 node_modules/
 config.js
 .pem
-.csv
+database_mysql/features.csv
+database_mysql/photos.csv
+database_mysql/product.csv
+database_mysql/related.csv
+database_mysql/skus.csv
+database_mysql/styles.csv
