@@ -17,7 +17,7 @@ module.exports.getAllProducts = (callback) => {
     if (err) {
       callback(err);
     } else {
-      console.log("THIS IS DATA", data)
+      // console.log("THIS IS DATA", data)
       callback(null, data);
     }
   });
@@ -40,12 +40,20 @@ module.exports.getProductInfo = (params, callback) => {
 };
 
 
+// `SELECT style.product_id, style.id, style.name, style.original_price, style.sale_price, style.default_style, skus.id, skus.quantity, skus.size
+//   FROM style
+//   INNER JOIN skus ON skus.style_id=style.id
+//   WHERE style.product_id = '${params.product_id}';`,
+
+
 module.exports.getStyleSkus = (params, callback) => {
   console.log('THIS IS PARAMS', params.product_id);
-  connection.query(`SELECT style.product_id, style.id, style.name, style.original_price, style.sale_price, style.default_style, skus.id, skus.quantity, skus.size
-  FROM style
+  connection.query(`SELECT product.id, style.id, style.name, style.original_price, style.sale_price, style.default_style, skus.quantity, skus.size
+  FROM product
+  INNER JOIN style ON style.product_id= product.id
   INNER JOIN skus ON skus.style_id=style.id
-  WHERE style.product_id = '${params.product_id}';`, (err, data) => {
+  WHERE product.id = '${params.product_id}';`,
+  (err, data) => {
     if (err) {
       callback(err);
     } else {
@@ -56,10 +64,12 @@ module.exports.getStyleSkus = (params, callback) => {
 };
 module.exports.getStylePhoto = (params, callback) => {
   console.log('THIS IS PARAMS', params.product_id);
-  connection.query(`SELECT style.product_id, photo.style_id, photo.thumbnail_url, photo.url
-  FROM style
+  connection.query(`SELECT product.id, style.id, photo.thumbnail_url, photo.url
+  FROM product
+  INNER JOIN style ON style.product_id= product.id
   INNER JOIN photo ON photo.style_id=style.id
-  WHERE style.product_id = '${params.product_id}';`, (err, data) => {
+  WHERE product.id = '${params.product_id}';`,
+  (err, data) => {
     if (err) {
       callback(err);
     } else {
